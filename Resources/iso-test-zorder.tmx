@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="30" height="30" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="iso" tilewidth="64" tileheight="32">
+  <image source="iso.png" width="64" height="96"/>
+  <tile id="0">
+   <properties>
+    <property name="conflict" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="conflict" value="0"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="conflict" value="0"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="grass" width="30" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztV8sOgDAIm/v/j/biyTCgpWwx8UBinEIpj2ZzjDF/M+167DSOXXlF76p8eP7fZ6s4ippkY1Vie/iRmAzGqg8ltzut2pud2D3/bE9UcKAzkMHWMUcdvtT7Q3Gm+t/ipDNf7ztFXMaHorci/fFmqKJljDavao32kqX1ir2A9In1jOwrJOeIqxUWhs9sjdGeR3e5UmOysaO82LwznDLYOnT4K3eJG8P+Bo0=
+  </data>
+ </layer>
+</map>
