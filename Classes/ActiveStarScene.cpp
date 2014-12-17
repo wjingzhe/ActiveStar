@@ -147,7 +147,7 @@ bool ActiveStarScene::init()
 
 
 	//todo 地址处理，不能处于障碍物身上
-	m_pTamara->setPosition(nMapWidth/2,nMapheight/2);
+	m_pTamara->setPosition(nMapWidth/2+10,nMapheight/2+5);
 	
 
 	//todo
