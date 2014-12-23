@@ -3,7 +3,10 @@ USING_NS_CC;
 #include <cmath>
 
 #define RecNum 1
-Astar::Astar():m_eDimensioFLag(DimensionFlag::D_2D),m_vOpen(nullptr),m_vClosed(nullptr),m_vPath(nullptr),m_pAstarMapManager(nullptr),m_nCount(0),m_bIsInited(false)
+Astar::Astar()
+	:m_eDimensioFLag(DimensionFlag::D_2D),m_vOpen(nullptr)
+	,m_vClosed(nullptr),m_vPath(nullptr),m_pAstarMapManager(nullptr)
+	,m_nCount(0),m_bIsInited(false),m_bHavePath(false)
 {
 }
 
@@ -153,6 +156,22 @@ void Astar::generatePath(void)
 		m_vPath->pushBack(pItem);
 
 	}
+
+	if (!m_bHavePath)
+	{
+		for (auto it = m_vPath->end()-1; it != m_vPath->begin()-1; )
+		{
+			if ( (*it)->getH() > (*(it-1))->getH() )
+			{
+				m_vPath->erase(it);
+				continue;
+			}
+			++it;
+		}
+	}
+	
+
+
 	m_vPath->reverse();
 	
 
@@ -327,7 +346,7 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 	int rowDelta;
 	int colDelta;
 
-	bool bHavePath = false;
+	m_bHavePath = false;
 	//auto i = m_vOpen.size();
 	while (m_vOpen->size()>1)
 	{
@@ -348,14 +367,14 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 		if (rowDelta <1E-5 && colDelta<1E-5 )
 		{
 			//目标点也放在路径中
-			bHavePath = true;		
+			m_bHavePath = true;		
 			generatePath();
 			break;
 		}
 		//超过最大深度，结束遍历
 		else if (cuuDepth>nMaxDepth)
 		{
-			bHavePath = false;
+			m_bHavePath = false;
 			generatePath();
 
 			break;
@@ -380,7 +399,7 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 	log("jingz----------------end--%s",__FUNCTION__);
 	reset();
 	cuuDepth = 0;
-	return bHavePath;
+	return m_bHavePath;
 
 
 }

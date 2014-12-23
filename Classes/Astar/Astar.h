@@ -257,6 +257,7 @@ private:
 
 	bool m_bIsInited;
 
+	bool m_bHavePath;
 
 	bool m_aFlag[4];
 	AstarItem * m_apItem[4];
