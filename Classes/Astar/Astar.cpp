@@ -274,6 +274,46 @@ void Astar::sortOne(void)
 	std::swap(*temp,*(m_vOpen->end()-1));
 }
 
+//代替 简单选择
+//有待泛化
+void Astar::heapSort(void)
+{
+	int n = m_vOpen->size()-1;
+	for (int i = n/2; i >= 1; --i)
+	{
+		int k = i,j = 0;
+
+		auto v = m_vOpen->at(k);
+
+		bool heap = false;
+
+		while(!heap && 2*k < n )//实现父母优势
+		{
+			j = 2*k;
+			if(j<n)//存在两个儿子
+			{
+				if(m_vOpen->at(j)<m_vOpen->at(j+1)) 
+				{
+					j = j+1;
+				}
+			}
+
+			if(v->getF() >= m_vOpen->at(j)->getF())
+			{
+				heap = true;
+			}
+			else 
+			{
+				*(m_vOpen->begin()+k) = m_vOpen->at(j);
+				k = j;
+			}
+		}//while
+		*(m_vOpen->begin()+k) = v;
+
+	}//for
+
+	std::swap(m_vOpen->begin(),(m_vOpen->end()-1));
+}
 
 
 
@@ -353,7 +393,7 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 		
 		++cuuDepth;
 		//排序
-		sortOne();
+		heapSort();
 
 		auto parentItem = m_vOpen->back();
 		rowDelta = abs(tarRow-parentItem->getRow());

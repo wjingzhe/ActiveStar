@@ -60,6 +60,10 @@ public:
 	//排序，不需要完全排序，只需要每次冒泡选择最低耗散值的元素置于尾部
 	void sortOne(void);
 
+	//代替 简单选择
+	//有待泛化
+	void heapSort(void);
+
 
 	bool findPath(cocos2d::Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap * pMap,cocos2d::Vector<AstarItem*>* pvPath,bool bAddpath = false);
 
