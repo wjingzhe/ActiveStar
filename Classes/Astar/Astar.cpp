@@ -30,7 +30,7 @@ USING_NS_CC;
 Astar::Astar()
 	:m_eDimensioFLag(DimensionFlag::D_2D),m_vOpen(nullptr)
 	,m_vClosed(nullptr),m_vPath(nullptr),m_pAstarMapManager(nullptr)
-	,m_nCount(0),m_bIsInited(false),m_bHavePath(false)
+	,m_nExpandCount(0),m_bIsInited(false),m_bHavePath(false)
 {
 }
 
@@ -47,7 +47,7 @@ Astar::~Astar()
 
 
 
-	
+
 AstarItem * Astar::alterPathInfo(int row,int col,AstarItem * pNewParentItem)
 {
 	
@@ -70,7 +70,8 @@ AstarItem * Astar::alterPathInfo(int row,int col,AstarItem * pNewParentItem)
 		{
 			tempItem->alterPathAndF(pNewParentItem,tempG,tempH,tempF);
 			int n = m_vOpen->end()-m_vOpen->begin()-1;
-			HeapSort::placeElem(m_vOpen->begin()+1,n,n/2,AstarLessThan());
+			int i = m_vOpen->find(tempItem)-m_vOpen->begin()-1;
+			HeapSort::placeElem(m_vOpen->begin()+1,n,i,AstarLessThan());
 		}
 	}
 	else if(checkInClosed(tempItem))//更新值和路径
@@ -82,7 +83,7 @@ AstarItem * Astar::alterPathInfo(int row,int col,AstarItem * pNewParentItem)
 			tempItem->alterPathAndF(pNewParentItem,tempG,tempH,tempF);
 
 			fromClosedToOpen(tempItem);
-
+			++m_nExpandCount;
 		}
 		
 	}
@@ -93,6 +94,7 @@ AstarItem * Astar::alterPathInfo(int row,int col,AstarItem * pNewParentItem)
 		//未出现过的的节点加入open表中
 		addItemToList(tempItem,true);
 		//执行插入
+		++m_nExpandCount;
 	}
 	tempItem->release();
 	return tempItem;
@@ -303,9 +305,9 @@ void Astar::sortOne(void)
 //有待泛化
 void Astar::heapSort(void)
 {
-	HeapSort::createNewHeap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan());
+	HeapSort::createNewHeap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan(),m_nExpandCount);
 
-	HeapSort::genarateNextheap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan(),true);
+	HeapSort::genarateNextheap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan());
 }
 
 
@@ -319,15 +321,6 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 
 	pMap->retain();
 
-
-	////容器的动态增长性问题
-	//bool cleanUp = false;
-	//++m_nCount;
-	//if (m_nCount>=20)
-	//{
-	//	cleanUp = true;
-	//}
-	//clear
 
 	if (m_bIsInited)
 	{
@@ -388,6 +381,7 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 		//排序
 		heapSort();
 		//sortOne();
+		m_nExpandCount = 0;
 
 		auto parentItem = m_vOpen->back();
 		rowDelta = abs(tarRow-parentItem->getRow());

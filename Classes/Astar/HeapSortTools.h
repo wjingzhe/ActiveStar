@@ -28,10 +28,10 @@ namespace HeapSort
 {
 	//usage is similar stl algorithm,endIt is outSide of the vector
 	//即endIt是有效数据范围的下一个哨兵位置,下个版本增加对原生指针的支持
-	void createNewHeap(cocos2d::Vector<AstarItem*> *vItemList,cocos2d::Vector<AstarItem*>::iterator &startIt,cocos2d::Vector<AstarItem*>::iterator &endIt,AstarLessThan lessFunc);
+	void createNewHeap(cocos2d::Vector<AstarItem*> *vItemList,cocos2d::Vector<AstarItem*>::iterator &startIt,cocos2d::Vector<AstarItem*>::iterator &endIt,AstarLessThan lessFunc,int nodesCount);
 
 	//在位将末位元素生成为maxHeap,剩余元素以开始下标为顶重新调整为堆
-	void genarateNextheap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator &startIt,cocos2d::Vector<AstarItem*>::iterator &endIt,AstarLessThan lessFunc,bool bIsHeap = true);
+	void genarateNextheap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator &startIt,cocos2d::Vector<AstarItem*>::iterator &endIt,AstarLessThan lessFunc);
 
 	//末位增加袁术，以开始下标为顶重新调整为堆
 	void placeElem(cocos2d::Vector<AstarItem*>::iterator &startIt,int n,int i,AstarLessThan lessFunc);

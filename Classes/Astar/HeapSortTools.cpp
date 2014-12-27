@@ -26,28 +26,25 @@ THE SOFTWARE.
 namespace HeapSort
 {
 	
-	void createNewHeap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator &startIt,cocos2d::Vector<AstarItem*>::iterator &endIt,AstarLessThan lessFunc)
+	void createNewHeap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator &startIt,cocos2d::Vector<AstarItem*>::iterator &endIt,AstarLessThan lessFunc,int nodesCount)
 	{
 		if(endIt<=startIt+1) return;
 
 		int n = endIt-startIt;
-		for (int i = n/2; i >= 1; --i)
+		
+		for (int j = 0; j<nodesCount; ++j)
 		{
-			placeElem(startIt,endIt-startIt,i,lessFunc);
-
-		}//for
+			placeElem(startIt,endIt-startIt,n/2-j,lessFunc);
+		}
+		
 
 
 	}//createNewHeap
 
 
 	//在位将末位元素生成为maxHeap,剩余元素以开始下标为顶重新调整为堆
-	void genarateNextheap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator &startIt,cocos2d::Vector<AstarItem*>::iterator &endIt,AstarLessThan lessFunc,bool bIsHeap)
+	void genarateNextheap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator &startIt,cocos2d::Vector<AstarItem*>::iterator &endIt,AstarLessThan lessFunc)
 	{
-		if(!bIsHeap)
-		{
-			createNewHeap(vItemList,startIt,endIt,lessFunc);
-		}
 
 
 		std::swap(*startIt,*(endIt-1));
@@ -64,37 +61,42 @@ namespace HeapSort
 		{
 			return ;
 		}
-		auto v = *(startIt-1+i);
 
-		int k = i,j = 0;
-			
-		bool heap = false;
-
-		while(!heap && 2*k <= n )//实现父母优势
+		for ( ;i >= 1 ;i/=2 )	
 		{
-			j = 2*k;
-			if(j<n)//存在两个儿子
-			{
+			auto v = *(startIt-1+i);
 
-				if ( !lessFunc( *(startIt-1+j),*(startIt-1+j+1) ) )
+			int k = i,j = 0;
+			
+			bool heap = false;
+
+			while(!heap && 2*k <= n )//实现父母优势
+			{
+				j = 2*k;
+				if(j<n)//存在两个儿子
 				{
-					//j = j+1;
-					std::swap(*(startIt-1+j),*(startIt-1+j+1));
+
+					if ( !lessFunc( *(startIt-1+j),*(startIt-1+j+1) ) )
+					{
+						//j = j+1;
+						std::swap(*(startIt-1+j),*(startIt-1+j+1));
+					}
+
 				}
 
-			}
-
-			if(  lessFunc(v,*(startIt-1+j)) )
-			{
-				heap = true;
-			}
-			else 
-			{
-				*(startIt-1+k) = *(startIt-1+j);
-				k = j;
-			}
-		}//while
-		*(startIt-1+k) = v;
+				if(  lessFunc(v,*(startIt-1+j)) )
+				{
+					heap = true;
+				}
+				else 
+				{
+					*(startIt-1+k) = *(startIt-1+j);
+					k = j;
+				}
+			}//while
+			*(startIt-1+k) = v;
+		}//for
+		
 
 	}
 

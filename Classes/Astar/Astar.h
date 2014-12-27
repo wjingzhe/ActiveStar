@@ -277,8 +277,6 @@ private:
 	cocos2d::Vec2 m_vCurPosi;
 	cocos2d::Vec2 m_vTarPosi;
 
-	int m_nCount;
-
 	DimensionFlag m_eDimensioFLag;
 	
 
@@ -290,6 +288,8 @@ private:
 
 	bool m_aFlag[4];
 	AstarItem * m_apItem[4];
+
+	int m_nExpandCount;
 };
 
 
