@@ -1,6 +1,30 @@
-﻿#include "Astar.h"
+﻿/****************************************************************************
+Copyright (c) 2014-2015 Jingz @ ReccaStudio.
+
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+****************************************************************************/
+
+#include "Astar.h"
 USING_NS_CC;
 #include <cmath>
+
 
 #define RecNum 1
 Astar::Astar()
@@ -45,7 +69,8 @@ AstarItem * Astar::alterPathInfo(int row,int col,AstarItem * pNewParentItem)
 		if (tempF<tempItem->getF())
 		{
 			tempItem->alterPathAndF(pNewParentItem,tempG,tempH,tempF);
-
+			int n = m_vOpen->end()-m_vOpen->begin()-1;
+			HeapSort::placeElem(m_vOpen->begin()+1,n,n/2,AstarLessThan());
 		}
 	}
 	else if(checkInClosed(tempItem))//更新值和路径
@@ -269,7 +294,7 @@ void Astar::startSearch(AstarItem * pParentItem)
 //排序，不需要完全排序，只需要每次冒泡选择最低耗散值的元素置于尾部
 void Astar::sortOne(void)
 {
-	auto temp = std::min_element(m_vOpen->begin()+1,m_vOpen->end(),AstarCompare());
+	auto temp = std::min_element(m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan());
 
 	std::swap(*temp,*(m_vOpen->end()-1));
 }
@@ -278,41 +303,9 @@ void Astar::sortOne(void)
 //有待泛化
 void Astar::heapSort(void)
 {
-	int n = m_vOpen->size()-1;
-	for (int i = n/2; i >= 1; --i)
-	{
-		int k = i,j = 0;
+	HeapSort::createNewHeap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan());
 
-		auto v = m_vOpen->at(k);
-
-		bool heap = false;
-
-		while(!heap && 2*k < n )//实现父母优势
-		{
-			j = 2*k;
-			if(j<n)//存在两个儿子
-			{
-				if(m_vOpen->at(j)<m_vOpen->at(j+1)) 
-				{
-					j = j+1;
-				}
-			}
-
-			if(v->getF() >= m_vOpen->at(j)->getF())
-			{
-				heap = true;
-			}
-			else 
-			{
-				*(m_vOpen->begin()+k) = m_vOpen->at(j);
-				k = j;
-			}
-		}//while
-		*(m_vOpen->begin()+k) = v;
-
-	}//for
-
-	std::swap(m_vOpen->begin(),(m_vOpen->end()-1));
+	HeapSort::genarateNextheap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan(),true);
 }
 
 
@@ -394,6 +387,7 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 		++cuuDepth;
 		//排序
 		heapSort();
+		//sortOne();
 
 		auto parentItem = m_vOpen->back();
 		rowDelta = abs(tarRow-parentItem->getRow());
