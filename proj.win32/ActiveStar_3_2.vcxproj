@@ -139,6 +139,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Astar\Astar.cpp" />
     <ClCompile Include="..\Classes\Astar\AstarCalculate.cpp" />
     <ClCompile Include="..\Classes\Astar\AstarMapManager.cpp" />
+    <ClCompile Include="..\Classes\Astar\HeapSortTools.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +149,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Astar\AstarCalculate.h" />
     <ClInclude Include="..\Classes\Astar\AstarItem.h" />
     <ClInclude Include="..\Classes\Astar\AstarMapManager.h" />
+    <ClInclude Include="..\Classes\Astar\HeapSortTools.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
