@@ -400,7 +400,7 @@ bool ActiveStarScene::touchBegan(Touch  *touch, Event  *event)
 
 
 	
-	//todo 多次寻路问题
+	//多次寻路问题，执行完当前寻路再支持下次寻路
 
 
 	
