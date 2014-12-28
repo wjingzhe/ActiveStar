@@ -163,6 +163,22 @@ void Astar::generatePath(void)
 		return ;
 	}
 
+	//先清理无效路径
+	if (!m_bHavePath)
+	{
+		for (auto it = m_vClosed->end()-1; it != m_vClosed->begin(); )
+		{
+			if ( (*it)->getH() > m_fMinH )
+			{
+				it = m_vClosed->erase(it);
+				--it;
+				continue;
+			}
+			break;
+		//	
+		}
+	}
+
 	if (m_vPath->empty())
 	{
 		m_vPath->pushBack(*(m_vClosed->end()-1));
@@ -172,8 +188,13 @@ void Astar::generatePath(void)
 		m_vPath->insert(0,*(m_vClosed->end()-1));
 	}
 
+	
+
+
+	
 	//从尾部开始往前遍历
 	auto pItem = *m_vPath->begin();
+	
 	//默认的空头节点耗散值为0
 	while (pItem->getG()>abs(1E-5))
 	{
@@ -184,18 +205,7 @@ void Astar::generatePath(void)
 
 	}
 
-	if (!m_bHavePath)
-	{
-		for (auto it = m_vPath->end()-1; it != m_vPath->begin()-1; )
-		{
-			if ( (*it)->getH() > (*(it-1))->getH() )
-			{
-				m_vPath->erase(it);
-				continue;
-			}
-			++it;
-		}
-	}
+	
 	
 
 
@@ -346,7 +356,8 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 
 	pMap->release();
 
-	
+	//用于失败时清理路径
+	m_fMinH = Calculate::calculateH(0,0,pMap->getMapSize().width,pMap->getMapSize().height);
 
 	int curRow = curPosi.x;
 	int curCol = curPosi.y;
@@ -391,6 +402,11 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 
 		fromOpenToClose();
 
+		if (parentItem->getH()<m_fMinH)
+		{
+			m_fMinH = parentItem->getH();
+		}
+
 		//找到目标，退出循环
 		if (rowDelta <1E-5 && colDelta<1E-5 )
 		{
@@ -425,6 +441,10 @@ bool Astar::findPath(Vec2 curPosi,cocos2d::Vec2 targetPosi,cocos2d::TMXTiledMap 
 
 	//todo 圆滑处理
 	log("jingz----------------end--%s",__FUNCTION__);
+	if(!m_bHavePath)
+	{
+		generatePath();
+	}
 	reset();
 	cuuDepth = 0;
 	return m_bHavePath;

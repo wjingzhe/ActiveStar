@@ -290,6 +290,8 @@ private:
 	AstarItem * m_apItem[4];
 
 	int m_nExpandCount;
+
+	float m_fMinH;
 };
 
 
