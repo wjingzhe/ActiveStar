@@ -15,6 +15,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/ActiveStarScene.cpp \
 				   ../../Classes/Astar/Astar.cpp \
 				   ../../Classes/Astar/AstarCalculate.cpp \
+				   ../../Classes/Astar/HeapSortTools.cpp \
 				   ../../Classes/Astar/AstarMapManager.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
