@@ -1,5 +1,17 @@
 =====================================================
 v0.1.3版本： 
+
+计划ID：14121801-02
+Title主题：heapSort优化
+TimeBegan制定时间：2014.12.30
+Detail说明：细节处理1为支持ndk编译声明修改 2对插入时i对应插入元素当前在vector的下标
+Charger负责人：蓝玉
+TimeRemain任务周期：一份业余时间
+TimeFinished完成日期：2014.12.30
+Production成果说明：
+1、注释掉主循环中调用HeapInit（对应createNewHeap），直接使用genarateNextheap即可。
+
+
 计划ID：14121801
 Title主题：Debug每次open表排序改为HeapSort堆排序或类似增长级别的排序
 TimeBegan制定时间：2014.12.18
@@ -9,7 +21,7 @@ TimeRemain任务周期：2天业余时间
 TimeFinished完成日期：2014.12.27
 Production成果说明：
 1、排序算法已更改为HeapSort，并提取为一个单独的模块。因每次插入节点有范围，改写为非传统堆排序。
-2、弃用普通HeapInsert的形式，每次探索记录新增加的节点，在排序期实行堆插入二向定位。
+2、每次探索记录新增加的节点，在排序期实行堆插入二向定位。
 补记2：之前把向上和向下的item定位混合，现在进行分离。之后每探索出新item都执行HeapInsert（对应函数为：placeElem）。出现已在open中item更新路径，调用placeElem即可实现再次堆有序。
 下个版本：放弃主循环中调用HeapInit（对应createNewHeap），可以使用genarateNextheap。
 3、若是更新已在open表中的节点信息则直接重新定位（类似如插入），防止出现堆错乱
