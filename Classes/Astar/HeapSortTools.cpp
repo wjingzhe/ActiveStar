@@ -57,47 +57,70 @@ namespace HeapSort
 	//末位增加元素，以开始下标为顶重新调整为堆
 	void placeElem(cocos2d::Vector<AstarItem*>::iterator startIt,int n,int i,AstarLessThan lessFunc)
 	{
-		if (n<=1)
+		if (n<=1 || i<=0)
 		{
 			return ;
 		}
 
-		for ( ;i >= 1 ;i/=2 )	
-		{
-			auto v = *(startIt-1+i);
+		//向下
+		auto v = *(startIt-1+i);
 
-			int k = i,j = 0;
+		int k = i,j = 0;
 			
-			bool heap = false;
+		bool heap = false;
 
-			while(!heap && 2*k <= n )//实现父母优势
+		while(!heap && 2*k <= n )//实现父母优势
+		{
+			j = 2*k;
+			if(j<n)//存在两个儿子
 			{
-				j = 2*k;
-				if(j<n)//存在两个儿子
+
+				if ( !lessFunc( *(startIt-1+j),*(startIt-1+j+1) ) )
 				{
-
-					if ( !lessFunc( *(startIt-1+j),*(startIt-1+j+1) ) )
-					{
-						//j = j+1;
-						std::swap(*(startIt-1+j),*(startIt-1+j+1));
-					}
-
+					j = j+1;
+					//std::swap(*(startIt-1+j),*(startIt-1+j+1));
 				}
 
-				if(  lessFunc(v,*(startIt-1+j)) )
-				{
-					heap = true;
-				}
-				else 
-				{
-					*(startIt-1+k) = *(startIt-1+j);
+			}
+
+			if(  lessFunc(v,*(startIt-1+j)) )
+			{
+				heap = true;
+			}
+			else 
+			{
+				*(startIt-1+k) = *(startIt-1+j);
+				k = j;
+			}
+		}//while
+		*(startIt-1+k) = v;
+
+
+		//向上
+		v = *(startIt-1+i);
+
+		heap = false;
+
+		for ( k = i; !heap; )	
+		{
+			j = k/2;
+			if (j<1)
+			{
+				break;
+			}
+
+			if ( !lessFunc( *(startIt-1+k),*(startIt-1+j) ) )
+			{
+				*(startIt-1+k) = *(startIt-1+j);
 					k = j;
-				}
-			}//while
-			*(startIt-1+k) = v;
+			}
+			else
+			{
+				heap = true;
+			}
 		}//for
 		
-
+		*(startIt-1+k) = v;
 	}
 
 
