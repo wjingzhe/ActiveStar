@@ -170,8 +170,8 @@ protected:
 		if(flag)
 		{
 			m_vOpen->pushBack(pItem);
-			//int n = m_vOpen->end()-m_vOpen->begin()-1;
-			//HeapSort::placeElem(m_vOpen->begin()+1,n,n/2,AstarLessThan());
+			int n = m_vOpen->end()-m_vOpen->begin()-1;
+			HeapSort::placeElem(m_vOpen->begin()+1,n,n,AstarLessThan());
 			m_openId.insert(tiledId);
 		}
 		else
