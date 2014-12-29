@@ -315,8 +315,10 @@ void Astar::sortOne(void)
 //有待泛化
 void Astar::heapSort(void)
 {
-	HeapSort::createNewHeap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan(),m_nExpandCount);
+	//HeapSort::createNewHeap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan(),m_nExpandCount);
 
+	
+	//生成操作去顶点至尾，重新调整堆
 	HeapSort::genarateNextheap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan());
 }
 
