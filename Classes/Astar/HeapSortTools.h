@@ -33,7 +33,8 @@ namespace HeapSort
 	//在位将末位元素生成为maxHeap,剩余元素以开始下标为顶重新调整为堆
 	void genarateNextheap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator & const startIt,cocos2d::Vector<AstarItem*>::iterator endIt,AstarLessThan lessFunc);
 
-	//末位增加袁术，以开始下标为顶重新调整为堆
+	//排序的整体思想类似于红黑树map的插入，已在插入时有序，因为可能修改已有节点数据，不能使用stl的容器
+	//传入当前节点所在的位置，以开始下标为堆顶调整该节点的位置
 	void placeElem(cocos2d::Vector<AstarItem*>::iterator & const startIt,int n,int i,AstarLessThan lessFunc);
 
 }
