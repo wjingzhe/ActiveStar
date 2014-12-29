@@ -26,7 +26,7 @@ THE SOFTWARE.
 namespace HeapSort
 {
 	
-	void createNewHeap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator startIt,cocos2d::Vector<AstarItem*>::iterator endIt,AstarLessThan lessFunc,int nodesCount)
+	void createNewHeap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator & const startIt,cocos2d::Vector<AstarItem*>::iterator endIt,AstarLessThan lessFunc,int nodesCount)
 	{
 		if(endIt<=startIt+1) return;
 
@@ -34,7 +34,7 @@ namespace HeapSort
 		
 		for (int j = 0; j<nodesCount; ++j)
 		{
-			placeElem(startIt,endIt-startIt,n/2-j,lessFunc);
+			placeElem(startIt,n,n-j,lessFunc);
 		}
 		
 
@@ -43,7 +43,7 @@ namespace HeapSort
 
 
 	//在位将末位元素生成为maxHeap,剩余元素以开始下标为顶重新调整为堆
-	void genarateNextheap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator startIt,cocos2d::Vector<AstarItem*>::iterator endIt,AstarLessThan lessFunc)
+	void genarateNextheap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator & const startIt,cocos2d::Vector<AstarItem*>::iterator endIt,AstarLessThan lessFunc)
 	{
 
 
@@ -54,8 +54,9 @@ namespace HeapSort
 
 	}
 
-	//末位增加元素，以开始下标为顶重新调整为堆
-	void placeElem(cocos2d::Vector<AstarItem*>::iterator startIt,int n,int i,AstarLessThan lessFunc)
+	//排序的整体思想类似于红黑树map的插入，已在插入时有序，因为可能修改已有节点数据，不能使用stl的容器
+	//传入当前节点所在的位置，以开始下标为堆顶调整该节点的位置
+	void placeElem(cocos2d::Vector<AstarItem*>::iterator & const startIt,int n,int i,AstarLessThan lessFunc)
 	{
 		if (n<=1 || i<=0)
 		{
@@ -78,7 +79,6 @@ namespace HeapSort
 				if ( !lessFunc( *(startIt-1+j),*(startIt-1+j+1) ) )
 				{
 					j = j+1;
-					//std::swap(*(startIt-1+j),*(startIt-1+j+1));
 				}
 
 			}
@@ -109,11 +109,13 @@ namespace HeapSort
 				break;
 			}
 
-			if ( !lessFunc( *(startIt-1+k),*(startIt-1+j) ) )
+			//之前弄错了两个元素的位置，j为父节点，若j没有比k的耗散值小，则需要移位
+			if ( !lessFunc( *(startIt-1+j),*(startIt-1+k) ) )
 			{
 				*(startIt-1+k) = *(startIt-1+j);
 					k = j;
 			}
+			//否则已是有序
 			else
 			{
 				heap = true;
