@@ -121,7 +121,7 @@ namespace HeapSort
 		}//for
 		
 		*(startIt-1+k) = v;
-	}
+	}//placeElem
 
 
 
