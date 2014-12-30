@@ -1,3 +1,7 @@
+
+临时封档以及讨论相关：http://blog.csdn.net/jingzhewangzi/article/details/42267357
+
+
 =====================================================
 v0.1.3版本： 
 
@@ -33,7 +37,7 @@ Title主题：地图移动累加性BUG修正
 TimeBegan制定时间：2014.12.18
 Detail说明：1、将hero和map的依赖性分离；2、在每次寻路开始和执行结束增加位置修正或状态初始化
 Charger负责人：待定（搓衣板、水影、雪茄、蓝玉）
-TimeRemain任务周期：7天业余时间
+TimeRemain任务周期：7天业余时间（已搁置）
 Production成果说明：（由负责人添加）
 
 计划ID：14121803
@@ -41,9 +45,11 @@ Title主题：孤岛路径处理
 TimeBegan制定时间：2014.12.18
 Detail说明：失败查找的情况下会有bool返回，根据位置预测值出掉开始增加的路径
 Charger负责人：蓝玉
-TimeRemain任务周期：2天业余时间
+TimeRemain预计周期：2天业余时间
+TimeFInished完成时间：20141230
 Production成果说明：
 1、孤岛地图的预处理留待下个版本
+2、已支持同图孤岛的最接近点路径寻路。先删除了无效路径点再建立路径分支线。详情看generatePath代码
 
 <<<<<<< HEAD
 
