@@ -1,13 +1,12 @@
 #include "AppDelegate.h"
 #include "ActiveStarScene.h"
-
 USING_NS_CC;
 
 AppDelegate::AppDelegate() {
-
+    FileUtils::getInstance()->addSearchPath("/Resources",true);
 }
 
-AppDelegate::~AppDelegate() 
+AppDelegate::~AppDelegate()
 {
 }
 
