@@ -1,5 +1,5 @@
 /****************************************************************************
-Copyright (c) 2014-2015 Jingz @ ReccaStudio.
+Copyright (c) 2014-2015 Jingz @ Recca2 Studio.
 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
