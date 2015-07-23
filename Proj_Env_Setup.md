@@ -20,8 +20,20 @@ Col:max |                                     		  |row:Max
 		|                                             |
 		---------------------------------------------------------------------
                    Row:max,Col:max
-5、进入安装目录D:/coco2d-x-3.2/，运行setup.py。关于安卓方面，如果不熟悉cocos的话继续阅读：运行命令行可能有三种结果，1、只找到COCOS_CONSOLE_ROOT 2、还找到ANDROID_SDK_ROOT提示输入或enter 3、还找到ANT_ROOT和NDK_ROOT（一般会一闪而过退出命令行）
-如果不需要安卓打包，可以全部敲击enter略过，不影响代码在mac和win32上面运行调试；如果需要则浏览此配置博客：http://www.itnose.net/detail/6090401.html
+5、进入安装目录D:/coco2d-x-3.2/，运行setup.py。关于安卓方面，如果不熟悉cocos的话继续阅读：运行命令行可能有三种结果，
+	5.1、只找到COCOS_CONSOLE_ROOT 
+	5.2、还找到ANDROID_SDK_ROOT提示输入或enter 
+	5.3、还找到ANT_ROOT和NDK_ROOT（一般会一闪而过退出命令行）如果不需要安卓打包，可以全部敲击enter略过，不影响代码在mac和win32上面运行调试；
+	如果需要则浏览此配置博客：http://www.itnose.net/detail/6090401.html
+	
+(
 此时已经完成cocos的环境配置。由于项目共享在git上，下载回来的。Lib/a/so等都是不在版本管理中的，所以需要一个其他工程的库借用一下。在命令窗口中输入：cocos new projectName -l cpp -p com.whatevet.xxx [-d projPath] 后面中括号意思是可选。
 6、Git项目路径：https://github.com/wjingzhe/ActiveStar 如果不参与开发话，可以直接点右下角的download下载即可，之后解压。大家兴趣参与开发的话，我们进入组织提交申请即可：https://github.com/ReccaStudio
-7、把5中项目的cocos2d文件夹复制到6的相同文件夹中，目前0.0.1版可以直接替换。以后可能需要跳过冲突文件。打开vs2012以上的IDE均可运行工程。已注意Mac、Android的路径问题，截止当前已完成路径管理问题；Linux工程待续
+7、把5中项目的cocos2d文件夹复制到6的相同文件夹中，需要跳过冲突文件。打开vs2012以上的IDE均可运行工程。
+)
+其实直接运行cocos2d文件夹下的download-deps.py 即可，会下载到一份v3-deps-5.zip 按照提示完成就行了。6/7的配置方式是很旧的了。
+
+	
+已注意Mac、Android的路径问题，截止当前已完成路径管理问题；Linux工程待续
+
+8、因为大家的目标是解决A*算法遇到技术难点，暂时不要纠结android打包的环境配置，需要的话联系我代打个演示包——win32或者mac环境就行了
