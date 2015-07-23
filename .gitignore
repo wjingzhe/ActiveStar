@@ -108,3 +108,7 @@ Device-Release/
 # Ignore vim swaps
 *.swp
 *.swo
+
+#Ignore all compressed res
+*.zip
+*.rar
