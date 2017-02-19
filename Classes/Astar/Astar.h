@@ -171,7 +171,7 @@ protected:
 		{
 			m_vOpen->pushBack(pItem);
 			int n = m_vOpen->end()-m_vOpen->begin()-1;
-			HeapSort::placeElem(m_vOpen->begin()+1,n,n,AstarLessThan());
+			HeapSort::placeElem(m_vOpen->begin() + 1, m_vOpen->end(), n, AstarGreaterThan());
 			m_openId.insert(tiledId);
 		}
 		else

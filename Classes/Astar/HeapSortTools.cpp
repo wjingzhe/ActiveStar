@@ -22,11 +22,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "HeapSortTools.h"
+#include <algorithm>
 
 namespace HeapSort
 {
 	
-	void createNewHeap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator startIt,cocos2d::Vector<AstarItem*>::iterator endIt,AstarLessThan lessFunc,int nodesCount)
+	void createNewHeap(cocos2d::Vector<AstarItem*> * vItemList, cocos2d::Vector<AstarItem*>::iterator startIt, cocos2d::Vector<AstarItem*>::iterator endIt, AstarGreaterThan greaterFunc, int nodesCount)
 	{
 		if(endIt<=startIt+1) return;
 
@@ -34,7 +35,7 @@ namespace HeapSort
 		
 		for (int j = 0; j<nodesCount; ++j)
 		{
-			placeElem(startIt,n,n-j,lessFunc);
+			placeElem(startIt, endIt, n - j, greaterFunc);
 		}
 		
 
@@ -43,86 +44,23 @@ namespace HeapSort
 
 
 	//在位将末位元素生成为maxHeap,剩余元素以开始下标为顶重新调整为堆
-	void genarateNextheap(cocos2d::Vector<AstarItem*> * vItemList,cocos2d::Vector<AstarItem*>::iterator startIt,cocos2d::Vector<AstarItem*>::iterator endIt,AstarLessThan lessFunc)
+	void genarateNextheap(cocos2d::Vector<AstarItem*> * vItemList, cocos2d::Vector<AstarItem*>::iterator startIt, cocos2d::Vector<AstarItem*>::iterator endIt, AstarGreaterThan greaterFunc)
 	{
 
 
 		std::swap(*startIt,*(endIt-1));
 
 		//只需要把顶点元素重新找出来，再把v放入空白位置即可
-		placeElem(startIt,endIt-1-startIt,1,lessFunc);
+		placeElem(startIt, endIt - 1, 1, greaterFunc);
 
 	}
 
 	//排序的整体思想类似于红黑树map的插入，已在插入时有序，因为可能修改已有节点数据，不能使用stl的容器
 	//传入当前节点所在的位置，以开始下标为堆顶调整该节点的位置
-	void placeElem(cocos2d::Vector<AstarItem*>::iterator startIt,int n,int i,AstarLessThan lessFunc)
+	void placeElem(cocos2d::Vector<AstarItem*>::iterator startIt, cocos2d::Vector<AstarItem*>::iterator endIt,
+		int i, AstarGreaterThan greaterFunc)
 	{
-		if (n<=1 || i<=0)
-		{
-			return ;
-		}
-
-		//向下
-		auto v = *(startIt-1+i);
-
-		int k = i,j = 0;
-			
-		bool heap = false;
-
-		while(!heap && 2*k <= n )//实现父母优势
-		{
-			j = 2*k;
-			if(j<n)//存在两个儿子
-			{
-
-				if ( !lessFunc( *(startIt-1+j),*(startIt-1+j+1) ) )
-				{
-					j = j+1;
-				}
-
-			}
-
-			if(  lessFunc(v,*(startIt-1+j)) )
-			{
-				heap = true;
-			}
-			else 
-			{
-				*(startIt-1+k) = *(startIt-1+j);
-				k = j;
-			}
-		}//while
-		*(startIt-1+k) = v;
-
-
-		//向上
-		v = *(startIt-1+i);
-
-		heap = false;
-
-		for ( k = i; !heap; )	
-		{
-			j = k/2;
-			if (j<1)
-			{
-				break;
-			}
-
-			//之前弄错了两个元素的位置，j为父节点，若j没有比k的耗散值小，则需要移位
-			if ( !lessFunc( *(startIt-1+j),*(startIt-1+k) ) )
-			{
-				*(startIt-1+k) = *(startIt-1+j);
-					k = j;
-			}
-			//否则已是有序
-			else
-			{
-				heap = true;
-			}
-		}//for
-		
-		*(startIt-1+k) = v;
+		std::make_heap(startIt, endIt, greaterFunc);
 	}//placeElem
 
 

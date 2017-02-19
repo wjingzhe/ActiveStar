@@ -205,3 +205,22 @@ public:
 };
 
 
+struct AstarGreaterThan :public std::binary_function<AstarItem*, AstarItem*, bool>
+{
+public:
+	bool operator()(const AstarItem* left, const AstarItem * right)const
+	{
+		if (std::abs(left->getF() - right->getF()) < 1E-5)
+		{
+			//同耗散，优先考虑预测值
+			return left->getH() > right->getH();
+		}
+		else
+		{
+			return (left->getF() > right->getF());
+		}
+
+
+	}
+};
+

@@ -71,7 +71,7 @@ AstarItem * Astar::alterPathInfo(int row,int col,AstarItem * pNewParentItem)
 			tempItem->alterPathAndF(pNewParentItem,tempG,tempH,tempF);
 			int n = m_vOpen->end()-m_vOpen->begin()-1;
 			int i = m_vOpen->find(tempItem)-m_vOpen->begin()-1;
-			HeapSort::placeElem(m_vOpen->begin()+1,n,i,AstarLessThan());
+			HeapSort::placeElem(m_vOpen->begin() + 1, m_vOpen->end(), i, AstarGreaterThan());
 		}
 	}
 	else if(checkInClosed(tempItem))//更新值和路径
@@ -319,7 +319,7 @@ void Astar::heapSort(void)
 
 	
 	//生成操作去顶点至尾，重新调整堆
-	HeapSort::genarateNextheap(m_vOpen,m_vOpen->begin()+1,m_vOpen->end(),AstarLessThan());
+	HeapSort::genarateNextheap(m_vOpen, m_vOpen->begin() + 1, m_vOpen->end(), AstarGreaterThan());
 }
 
 
