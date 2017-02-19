@@ -69,9 +69,8 @@ AstarItem * Astar::alterPathInfo(int row,int col,AstarItem * pNewParentItem)
 		if (tempF<tempItem->getF())
 		{
 			tempItem->alterPathAndF(pNewParentItem,tempG,tempH,tempF);
-			int n = m_vOpen->end()-m_vOpen->begin()-1;
-			int i = m_vOpen->find(tempItem)-m_vOpen->begin()-1;
-			HeapSort::placeElem(m_vOpen->begin()+1,n,i,AstarLessThan());
+			int offsetIndex = m_vOpen->find(tempItem)-(m_vOpen->begin()+1)-1;
+			HeapSort::placeElem(m_vOpen->begin() + 1, m_vOpen->end(), offsetIndex, AstarLessThan());
 		}
 	}
 	else if(checkInClosed(tempItem))//更新值和路径
